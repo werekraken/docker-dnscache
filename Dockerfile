@@ -16,8 +16,14 @@ RUN dnsip `dnsqr ns . | awk '/answer:/ { print $5; }' | sort` > /etc/dnsroots.gl
 RUN dnscache-conf dnscache dnslog /etc/dnscache 0.0.0.0 \
   && ln -s /etc/dnscache /etc/service/dnscache
 
+RUN mkdir /dnscache \
+  && mv /etc/dnscache/root/ip      /dnscache/ip \
+  && mv /etc/dnscache/root/servers /dnscache/servers \
+  && ln -s /dnscache/ip      /etc/dnscache/root/ip \
+  && ln -s /dnscache/servers /etc/dnscache/root/servers
+
 EXPOSE 53/udp 53
 
-VOLUME /etc/dnscache
+VOLUME /dnscache
 
 CMD ["svscan", "/etc/service"]
