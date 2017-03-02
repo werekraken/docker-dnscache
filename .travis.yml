@@ -1,0 +1,10 @@
+---
+language: ruby
+cache: bundler
+dist: trusty
+rvm: 2.3.1
+script: bundle exec rake test
+services: docker
+sudo: required
+notifications:
+  email: false
