@@ -43,10 +43,6 @@ describe 'docker container' do
     it { should be_symlink }
   end
 
-  describe file('/dnscache') do
-    it { should be_directory }
-  end
-
   describe file('/etc/dnscache/root/ip') do
     it { should be_directory }
   end

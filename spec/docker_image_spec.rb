@@ -16,6 +16,5 @@ describe 'docker image' do
     its(['Config.ExposedPorts']) { should include '53/udp' }
     its(['Config.ExposedPorts']) { should include '53/tcp' }
     its(['Config.Cmd'])          { should include 'svscan' }
-    its(['Config.Volumes'])      { should include '/dnscache' }
   end
 end
