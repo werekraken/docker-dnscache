@@ -80,28 +80,20 @@ describe 'dnscache' do
     it { should be_directory }
   end
 
-  describe file('/dnscache/ip') do
-    it { should be_directory }
-  end
-
-  describe file('/dnscache/ip/127.0.0.1') do
-    it { should be_file }
-  end
-
-  describe file('/dnscache/servers') do
-    it { should be_directory }
-  end
-
-  describe file('/dnscache/servers/@') do
-    it { should be_file }
-  end
-
   describe file('/etc/dnscache/root/ip') do
-    it { should be_symlink }
+    it { should be_directory }
+  end
+
+  describe file('/etc/dnscache/root/ip/127.0.0.1') do
+    it { should be_file }
   end
 
   describe file('/etc/dnscache/root/servers') do
-    it { should be_symlink }
+    it { should be_directory }
+  end
+
+  describe file('/etc/dnscache/root/servers/@') do
+    it { should be_file }
   end
 
   describe process('svscan') do
