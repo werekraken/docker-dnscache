@@ -1,43 +1,10 @@
-require 'docker'
-require 'serverspec'
+require 'spec_helper'
 
-describe 'dnscache' do
+describe 'docker container' do
   before(:all) do
-    @image = Docker::Image.build_from_dir('.')
-
     set :os, family: :ubuntu
     set :backend, :docker
-    set :docker_image, @image.id
-  end
-
-  describe 'Docker image' do
-    it 'should exist' do
-      expect(@image).not_to be_nil
-    end
-  end
-
-  describe 'Port "53/udp"' do
-    it 'should be exposed' do
-      expect(@image.json['ContainerConfig']['ExposedPorts']).to include('53/udp')
-    end
-  end
-
-  describe 'Port "53/tcp"' do
-    it 'should be exposed' do
-      expect(@image.json['ContainerConfig']['ExposedPorts']).to include('53/tcp')
-    end
-  end
-
-  describe 'Command "svscan"' do
-    it 'should be configured' do
-      expect(@image.json['ContainerConfig']['Cmd']).to include(/svscan/)
-    end
-  end
-
-  describe 'Volume "/dnscache"' do
-    it 'should be configured' do
-      expect(@image.json['ContainerConfig']['Volumes']).to include('/dnscache')
-    end
+    set :docker_image, image.id
   end
 
   describe package('daemontools') do
