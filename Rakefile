@@ -15,7 +15,7 @@ task :lint do
   proj_root = File.dirname(__FILE__)
   FileList['**/Dockerfile'].exclude(/^vendor/).each do |dockerfile|
     puts "---> lint:#{dockerfile}"
-    image = Docker::Image.create('fromImage' => 'projectatomic/dockerfile-lint')
+    image = Docker::Image.create('fromImage' => 'projectatomic/dockerfile-lint', 'tag' => 'latest')
     container = Docker::Container.create({
       :Cmd        => [ 'dockerfile_lint', '-r', '.dockerfile_lint.yml', '-f', dockerfile ],
       :Image      => image.id,
