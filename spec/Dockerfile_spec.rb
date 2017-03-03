@@ -28,13 +28,13 @@ describe 'dnscache' do
     end
   end
 
-  describe 'Command svscan' do
+  describe 'Command "svscan"' do
     it 'should be configured' do
       expect(@image.json['ContainerConfig']['Cmd']).to include(/svscan/)
     end
   end
 
-  describe 'Volume /dnscache' do
+  describe 'Volume "/dnscache"' do
     it 'should be configured' do
       expect(@image.json['ContainerConfig']['Volumes']).to include('/dnscache')
     end
