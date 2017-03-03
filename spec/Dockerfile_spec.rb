@@ -103,4 +103,9 @@ describe 'dnscache' do
   describe process('dnscache') do
     it { should be_running }
   end
+
+  describe port(53) do
+    it { should be_listening.on('0.0.0.0').with('udp') }
+    it { should be_listening.on('0.0.0.0').with('tcp') }
+  end
 end
