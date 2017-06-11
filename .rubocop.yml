@@ -478,3 +478,7 @@ Style/Encoding:
 
 Metrics/BlockLength:
   Enabled: false
+
+Style/SymbolArray:
+  Enabled: true
+  EnforcedStyle: brackets
