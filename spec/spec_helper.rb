@@ -11,8 +11,12 @@ RSpec.configure do |config|
   config.add_setting :image, :default => nil
 
   config.before(:suite) do
-    Docker::Image.create('fromImage' => 'werekraken/dnscache', 'tag' => 'latest')
-    RSpec.configuration.image = Docker::Image.build_from_dir('.', { 'cachefrom' => [ 'werekraken/dnscache:latest' ].to_json, 'pull' => 1 }) do |v|
+    cachefrom = nil
+    unless ENV['DOCKER_BUILD_CACHE_FROM'] == 'no'
+      Docker::Image.create('fromImage' => 'werekraken/dnscache', 'tag' => 'latest')
+      cachefrom = [ 'werekraken/dnscache:latest' ].to_json
+    end
+    RSpec.configuration.image = Docker::Image.build_from_dir('.', { 'cachefrom' => cachefrom, 'pull' => 1 }) do |v|
       if ENV['DOCKER_BUILD_VERBOSE'] == 'yes'
         if (log = JSON.parse(v)) && log.key?("stream")
           $stdout.puts log["stream"]
