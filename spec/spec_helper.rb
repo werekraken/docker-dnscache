@@ -1,6 +1,7 @@
 require 'docker'
 require 'rspec'
 require 'serverspec'
+require 'yaml'
 
 def image
   RSpec.configuration.image
@@ -13,8 +14,9 @@ RSpec.configure do |config|
   config.before(:suite) do
     cachefrom = nil
     unless ENV['DOCKER_BUILD_CACHE_FROM'] == 'no'
-      Docker::Image.create('fromImage' => 'werekraken/dnscache', 'tag' => 'latest')
-      cachefrom = [ 'werekraken/dnscache:latest' ].to_json
+      metadata = YAML.load_file('metadata.yaml')
+      Docker::Image.create('fromImage' => metadata['docker_repo'], 'tag' => 'latest')
+      cachefrom = [ "#{metadata['docker_repo']}:latest" ].to_json
     end
     RSpec.configuration.image = Docker::Image.build_from_dir('.', { 'cachefrom' => cachefrom, 'pull' => 1 }) do |v|
       if ENV['DOCKER_BUILD_VERBOSE'] == 'yes'
